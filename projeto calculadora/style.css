@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 2rem;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#calc {
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 300px;
+    height: 450px;
+}
+
+#screen {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 100px;
+}
+
+#previous-digit{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 300px;
+    height: 30px;
+}
+
+#current-digit {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 300px;
+    height: 70px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+#btn-box {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .5rem;
+}
+
+#btn-box button {
+    width: 65px;
+    height: 65px;
+}
+
+#btn-box .result {
+    grid-column: span 2;
+    width: 140px;
+}
