@@ -1,15 +1,28 @@
-const htmlElem = document.querySelector("body")
+const htmlElem = document.querySelector("html")
 
 console.log(htmlElem)
 
-htmlElem.addEventListener("mouseover", (e) => {
-
+htmlElem.addEventListener("mouseleave", (e) => {
     const item = e.relatedTarget
-    if(item.nodeName === "HTML") {
-        alert("left window");
+    const modal = document.querySelector(".modalBackGround")
+    // console.log(modal)
+    // console.log(item)
+    if(item === null) {
+        
+        modal.className = "modalBackGround"
+        
     }
 })
 
+const button = document.querySelector(".btnx")
+
+button.addEventListener("click", (e) => {
+    e.preventDefault()
+
+    const modal = document.querySelector(".modalBackGround")
+
+    modal.className = "modalBackGround displayNone"
+})
 
 // function addEvent(obj, evt, fn) {
 //     if (obj.addEventListener) {
@@ -19,7 +32,7 @@ htmlElem.addEventListener("mouseover", (e) => {
 //     }
 // }
 
-// addEvent(body, "mouseout", function(e) {
+// addEvent(htmlElem, "mouseout", function(e) {
 //     e = e ? e : window;
 //     const from = e.relatedTarget || e.toElement;
 //     console.log(from.nodeName)
