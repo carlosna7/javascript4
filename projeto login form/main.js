@@ -43,9 +43,6 @@ button.addEventListener("click", (e) => {
         console.error("Erro ao carregar o JSON:", error);
     });
 
-
-    
-
     input.value = ""
 })
 

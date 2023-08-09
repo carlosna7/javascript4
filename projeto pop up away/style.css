@@ -1,0 +1,16 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: grey;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100vh;
+}
+
+.pt-br {
+    background-color: #c2fffd;
+    padding: 2rem;
+}
