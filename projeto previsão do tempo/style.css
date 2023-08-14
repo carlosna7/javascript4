@@ -34,6 +34,9 @@ body {
     display: flex;
     flex-direction: column;
     font-weight: 100;
+    background: rgba(0,0,0,0.2);
+    padding: 1rem;
+    border-radius: 1rem;
 }
 
 .data-container .time {
@@ -66,10 +69,24 @@ body {
 
 .local-container {
     text-align: end;
+    background: rgba(0,0,0,0.2);
+    padding: 1rem;
+    border-radius: 1rem;
+    height: 100%;
 }
 
 .local-container .time-zone {
     font-size: 30px;
+    font-weight: 100;
+    display: flex;
+    justify-content: center;
+}
+
+.local-container .country {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
     font-weight: 100;
 }
 
