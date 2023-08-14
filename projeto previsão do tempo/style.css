@@ -94,10 +94,9 @@ body {
     justify-content: center;
     border: 1px solid #eee;
     border-radius: 10px;
-    padding:15px;
-    padding-right: 40px;
+    padding: 2rem;
     border-radius: 10px;
-    background: rgba(0,0,0,0.2)
+    background: rgba(0,0,0,0.4)
 }
 
 .next-forecast .today .day {
@@ -112,6 +111,15 @@ body {
     padding-top: 15px;
 }
 
+.next-forecast .today .temp2 {
+    font-size: 14px;
+    padding-top: 12px;
+}
+
+.weather-forecast {
+    display: flex;
+}
+
 .weather-forecast .weather-forecast-item{
     display: flex;
     flex-direction: column;
@@ -119,9 +127,9 @@ body {
     justify-content: center;
     margin: 0 10px;
     border: 1px solid #eee;
-    padding: 15px;
+    padding: 1rem;
     border-radius: 10px;
-    background: rgba(0,0,0,0.2)
+    background: rgba(0,0,0,0.4)
 }
 
 .weather-forecast .weather-forecast-item .day{
