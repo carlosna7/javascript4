@@ -1,7 +1,7 @@
 const timeElement = document.querySelector("#time");
 const dateElement = document.querySelector("#date");
 const infosElement = document.querySelector("#infos-items");
-const timezone = document.querySelector("#time-zone");
+const timezonePlace = document.querySelector("#time-zone");
 const weatherForecastEl = document.querySelector("#weather-forecast");
 const currentTempEl = document.querySelector("#current-temp");
 const country = document.querySelector(".country")
@@ -39,33 +39,62 @@ setInterval(() => {
 function getWeatherData() {
     navigator.geolocation.getCurrentPosition((success) => {
         const apiKey = "e2c86b2b53ac4366886745699b0acc8d"
-
         // const latitude = success.coords.latitude;
         // const longitude = success.coords.longitude;
         const {latitude, longitude} = success.coords;
         // console.log({latitude, longitude})
+        const searchInput = document.querySelector(".search-input")
+        const searchBtn = document.querySelector(".search-btn")
 
+        let counter = 0;
+        console.log("contador acima do fetch" + counter)
 
-        // criar contador para saber quantas vezes a p[agina/ sessão foi iniciada. Acrescentar 1 unidade sempre que for pesquisado algo. Quando ninguem tiver feito pesquisa de cidade, ou seja, contador === 0 usar os links de latitude a longitude, quando o contador for > 0 usar outro padrão de links, os links que vão receber o nome da cidade digitada 
+        if(counter === 0) {
+            const link = `https://api.weatherbit.io/v2.0/current?lat=${latitude}&lon=${longitude}&key=${apiKey}&include=minutely`;
+            const linkForecast = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=M`
 
-        const link = `https://api.weatherbit.io/v2.0/current?lat=${latitude}&lon=${longitude}&key=${apiKey}&include=minutely`;
-       
-        const linkForecast = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=M`
-        
+            fetch(link)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                showWeatherData(data);
+            })
 
-        fetch(link)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            showWeatherData(data);
-        })
+            fetch(linkForecast)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                showWeatherForecast(data);
+            });
+            counter++
+            console.log("contador abaixo do fetch" + counter)
+        }
 
-        fetch(linkForecast)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            showWeatherForecast(data);
-        })
+        if(counter >= 1) {
+            searchBtn.addEventListener("click", (e) => {
+                e.preventDefault()
+
+                const typedLocation = searchInput.value
+                const link = `https://api.weatherbit.io/v2.0/current?city=${typedLocation}&key=${apiKey}&include=minutely`;
+                const linkForecast = `https://api.weatherbit.io/v2.0/forecast/daily?city=${typedLocation}&key=${apiKey}&units=M`
+
+                fetch(link)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    showWeatherData(data);
+                })
+
+                fetch(linkForecast)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    showWeatherForecast(data);
+                });
+
+                searchInput.value = ""
+            })
+        }
     })
 }
 
@@ -74,7 +103,7 @@ function showWeatherData(data) {
     const {icon} = data.data[0].weather
     const today = time.getDay();
 
-    timezone.innerText = timezone;
+    timezonePlace.innerText = timezone;
     country.innerHTML = `
         <p>${city_name}</p>
         <img src="https://flagsapi.com/${country_code}/flat/64.png">
@@ -95,7 +124,7 @@ function showWeatherData(data) {
         </div>
         <div class="infos-items">
             <p>Veloc. do vento</p>
-            <p>${wind_spd}</p>
+            <p>${wind_spd}km/h</p>
         </div>
         <div class="infos-items">
             <p>Nascer do sol</p>
@@ -120,24 +149,31 @@ function showWeatherForecast(data) {
 
     const forecastData = data.data;
     const today = time.getDay();
-    const maxIndex0 = document.querySelector(".selectMax")
-    const minIndex0 = document.querySelector(".selectMin")
-    
-    if(forecastData === 0) {
-        const {app_max_temp, app_min_temp} = data.data[0]
+    // const maxIndex0 = document.querySelector(".selectMax")
+    // const minIndex0 = document.querySelector(".selectMin")
+    const minMaxIndex = document.querySelector(".selectMin")
 
-        maxIndex0.innerText += `Min / ${app_max_temp}° C`
-        minIndex0.innerText += `Min / ${app_min_temp}° C`
-    }
+    forecastData.slice(0, 1).forEach((forecast) => {
+        let forecastHTML1 = ""
+
+        const {app_max_temp, app_min_temp} = forecast
+
+        forecastHTML1 = `
+            <div class="temp2 selectMax">Max / ${app_max_temp}° C</div>
+            <div class="temp2 selectMin">Min / ${app_min_temp}° C</div>
+        `
+
+        minMaxIndex.innerHTML += forecastHTML1
+    });
 
     if (forecastData.length !== 0) {
 
-        let forecastHTML = ""
+        let forecastHTML2 = ""
 
         forecastData.slice(1, 7).forEach((forecast) => {
             const {app_max_temp, app_min_temp} = forecast;
     
-            forecastHTML += `
+            forecastHTML2 += `
             <div class="weather-forecast-item">
                 <div class="day">${days[today]}</div>
                 <img src="https://www.weatherbit.io/static/img/icons/c01d.png" alt="weather icon" class="w-icon">
@@ -147,6 +183,6 @@ function showWeatherForecast(data) {
             `;
         });
 
-        weatherForecastEl.innerHTML = forecastHTML
+        weatherForecastEl.innerHTML = forecastHTML2
     } 
 }
